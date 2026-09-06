@@ -1,0 +1,18 @@
+[package]
+name = "base_converter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# eframe 是 egui 的官方框架，用于提供窗口和渲染上下文
+eframe = "0.27.2"
+
+# 隐藏 Windows 控制台窗口（构建 Release 时生效）
+[target.'cfg(windows)'.build-dependencies]
+
+[profile.release]
+opt-level = "z"     # 优化代码体积（z 表示针对大小进行最高优先级优化，s 表示小幅优化）
+lto = true          # 开启跨 crate 链接时优化 (Link Time Optimization)
+codegen-units = 1   # 降低并行编译代码块数量，换取更高的代码压缩率
+panic = "abort"     # 移除展开 (unwinding) 堆栈抛出代码，直接 panic 退出，可大幅精简体积
+strip = true        # 自动剥离可执行文件中的调试符号 (Symbols) 和调试信息
